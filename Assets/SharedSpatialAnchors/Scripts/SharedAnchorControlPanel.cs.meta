@@ -3,7 +3,22 @@ guid: 91791d25352446c4ab2720cc5432d82c
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - referencePoint: {instanceID: 0}
+  - cubePrefab: {instanceID: 0}
+  - roomLayoutPanelRowPrefab: {instanceID: 0}
+  - spawnPoint: {instanceID: 0}
+  - menuPanel: {instanceID: 0}
+  - lobbyPanel: {instanceID: 0}
+  - roomLayoutPanel: {instanceID: 0}
+  - createRoomButton: {instanceID: 0}
+  - joinRoomButton: {instanceID: 0}
+  - anchorIcon: {instanceID: 0}
+  - pageText: {instanceID: 0}
+  - statusText: {instanceID: 0}
+  - renderStyleText: {instanceID: 0}
+  - roomText: {instanceID: 0}
+  - userText: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
