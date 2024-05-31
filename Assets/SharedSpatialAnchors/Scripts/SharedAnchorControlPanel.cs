@@ -136,7 +136,7 @@ public class SharedAnchorControlPanel : MonoBehaviour
 
     public void OnSpawnCubeButtonPressed()
     {
-        SampleController.Instance.Log("OnSpawnCubeButtonPressed");
+        SampleController.Instance.Log("OnSpawnCarButtonPressed");
 
         SpawnCube();
     }
@@ -182,6 +182,11 @@ public class SharedAnchorControlPanel : MonoBehaviour
     public void DisplayMenuPanel()
     {
         menuPanel.SetActive(true);
+        lobbyPanel.SetActive(false);
+    }
+    public void HideInterface()
+    {
+        menuPanel.SetActive(false);
         lobbyPanel.SetActive(false);
     }
 
