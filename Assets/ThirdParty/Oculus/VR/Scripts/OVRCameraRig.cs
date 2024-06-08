@@ -157,7 +157,12 @@ public class OVRCameraRig : MonoBehaviour
     {
         _skipUpdate = true;
         EnsureGameObjectIntegrity();
-        filePath = Path.Combine(Application.persistentDataPath, "hand_positions.txt");
+        if (filePath == null)
+        {
+            string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmssfff");
+            filePath = Path.Combine(Application.persistentDataPath, $"hand_positions_{timestamp}.txt");
+        }
+
     }
 
     protected virtual void Start()
