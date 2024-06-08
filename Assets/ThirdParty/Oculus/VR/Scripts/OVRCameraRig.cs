@@ -29,6 +29,9 @@ using UnityEngine;
 using UnityEngine.XR;
 using Node = UnityEngine.XR.XRNode;
 
+using System.IO;
+
+
 /// <summary>
 /// A head-tracked stereoscopic virtual reality camera rig.
 /// </summary>
@@ -148,10 +151,13 @@ public class OVRCameraRig : MonoBehaviour
 
     #region Unity Messages
 
+    private string filePath;
+
     protected virtual void Awake()
     {
         _skipUpdate = true;
         EnsureGameObjectIntegrity();
+        filePath = Path.Combine(Application.persistentDataPath, "hand_positions.txt");
     }
 
     protected virtual void Start()
@@ -328,6 +334,20 @@ public class OVRCameraRig : MonoBehaviour
             rightControllerAnchor.localRotation = rightOffsetPose.orientation;
             leftControllerAnchor.localPosition = leftOffsetPose.position;
             leftControllerAnchor.localRotation = leftOffsetPose.orientation;
+
+            WriteHandPositionsToFile();
+        }
+
+         void WriteHandPositionsToFile()
+        {
+            using (StreamWriter writer = new StreamWriter(filePath, true))
+            {
+                string leftHandPosition = leftHandAnchor.localPosition.ToString();
+                string rightHandPosition = rightHandAnchor.localPosition.ToString();
+                string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+
+                writer.WriteLine($"{timestamp}, Left Hand: {leftHandPosition}, Right Hand: {rightHandPosition}");
+            }
         }
 
 #if USING_XR_SDK
