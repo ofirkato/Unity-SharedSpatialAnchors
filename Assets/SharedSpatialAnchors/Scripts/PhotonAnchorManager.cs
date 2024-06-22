@@ -293,9 +293,9 @@ public class PhotonAnchorManager : PhotonPun.MonoBehaviourPunCallbacks
             else
             {
                 UnityEngine.Random.InitState((int)(Time.time * 10000));
-                string testName = "TestUser" + UnityEngine.Random.Range(0, 1000);
+                string testName = "Clinician" + UnityEngine.Random.Range(0, 1000);
                 PhotonPun.PhotonNetwork.NickName = testName;
-                CreateNewRoomForLobby(testName);
+                CreateNewRoomForLobby("Treatment Session");
             }
             if (controlPanel)
                 controlPanel.DisplayMenuPanel();
@@ -329,7 +329,7 @@ public class PhotonAnchorManager : PhotonPun.MonoBehaviourPunCallbacks
 
         if (PhotonPun.PhotonNetwork.NickName == "")
         {
-            string testName = "TestUser" + UnityEngine.Random.Range(0, 1000);
+            string testName = "Patient" + UnityEngine.Random.Range(0, 1000);
             PhotonPun.PhotonNetwork.NickName = testName;
         }
 
