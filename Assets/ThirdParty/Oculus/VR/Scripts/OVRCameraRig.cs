@@ -349,9 +349,10 @@ public class OVRCameraRig : MonoBehaviour
             {
                 string leftHandPosition = leftHandAnchor.localPosition.ToString();
                 string rightHandPosition = rightHandAnchor.localPosition.ToString();
+                string headPosition = centerEyeAnchor.localPosition.ToString();
                 string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
 
-                writer.WriteLine($"{timestamp}, Left Hand: {leftHandPosition}, Right Hand: {rightHandPosition}");
+                writer.WriteLine($"{timestamp}, Head: {headPosition}, Left Hand: {leftHandPosition}, Right Hand: {rightHandPosition}");
             }
         }
 
