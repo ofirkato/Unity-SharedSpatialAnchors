@@ -164,8 +164,15 @@ public class SharedAnchorControlPanel : MonoBehaviour
     }
 
     private void SpawnCube()
+
     {
-        var networkedCube = PhotonPun.PhotonNetwork.Instantiate(cubePrefab.name, spawnPoint.position, spawnPoint.rotation);
+        // Define the constant position and rotation
+        Vector3 constantPosition = new Vector3(3, 0, 0);
+        Quaternion constantRotation = Quaternion.identity;  // Example rotation (no rotation)
+
+        // Instantiate the networked cube at the constant position and rotation
+        var networkedCube = PhotonPun.PhotonNetwork.Instantiate(cubePrefab.name, constantPosition, constantRotation);
+
         var photonGrabbable = networkedCube.GetComponent<PhotonGrabbableObject>();
         photonGrabbable.TransferOwnershipToLocalPlayer();
     }
