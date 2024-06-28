@@ -179,9 +179,9 @@ public class PhotonAnchorManager : PhotonPun.MonoBehaviourPunCallbacks
     {
         SampleController.Instance.Log("Photon::OnJoinedRoom: joined room: " + PhotonPun.PhotonNetwork.CurrentRoom.Name);
 
-        controlPanel.RoomText.text = "Room: " + PhotonPun.PhotonNetwork.CurrentRoom.Name;
 
         AddUserToUserListState(_oculusUserId);
+        bool isMasterClient = PhotonPun.PhotonNetwork.IsMasterClient;
 
         foreach (var player in PhotonPun.PhotonNetwork.CurrentRoom.Players.Values)
         {
@@ -190,7 +190,17 @@ public class PhotonAnchorManager : PhotonPun.MonoBehaviourPunCallbacks
 
         if (controlPanel)
         {
-            controlPanel.DisplayMenuPanel();
+            controlPanel.RoomText.text = "Room: " + PhotonPun.PhotonNetwork.CurrentRoom.Name;
+
+            if (isMasterClient)
+            {
+                controlPanel.DisplayMenuPanel(); // Show the interface only to the master client
+            }
+            else
+            {
+                controlPanel.HideInterface(); // Hide the interface for other clients
+            }
+
         }
 
         if (SampleController.Instance.automaticCoLocation)
@@ -323,7 +333,7 @@ public class PhotonAnchorManager : PhotonPun.MonoBehaviourPunCallbacks
 
         JoinRoomFromLobby(roomName.text);
         if (controlPanel)
-            controlPanel.DisplayMenuPanel();
+            controlPanel.DisplayLobbyPanel();
     }
 
 

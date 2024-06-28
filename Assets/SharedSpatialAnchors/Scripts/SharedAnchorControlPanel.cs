@@ -240,4 +240,20 @@ public class SharedAnchorControlPanel : MonoBehaviour
             SceneManager.LoadScene(0);
         }
     }
+
+    public void HideInterface()
+    {
+        gameObject.SetActive(false);
+        menuPanel.SetActive(false);
+        lobbyPanel.SetActive(false);
+        // Additionally, hide any other panels or UI elements
+        anchorIcon.gameObject.SetActive(false);
+        pageText.gameObject.SetActive(false);
+        statusText.gameObject.SetActive(false);
+        renderStyleText.gameObject.SetActive(false);
+        roomText.gameObject.SetActive(false);
+        userText.gameObject.SetActive(false);
+
+    }
+
 }
