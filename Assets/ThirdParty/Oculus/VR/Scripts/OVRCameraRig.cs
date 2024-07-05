@@ -152,6 +152,8 @@ public class OVRCameraRig : MonoBehaviour
     #region Unity Messages
 
     private string filePath;
+    private DateTime startTime;
+
 
     protected virtual void Awake()
     {
@@ -160,8 +162,10 @@ public class OVRCameraRig : MonoBehaviour
         if (filePath == null)
         {
             string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmssfff");
-            filePath = Path.Combine(Application.persistentDataPath, $"hand_positions_{timestamp}.txt");
+            filePath = Path.Combine(Application.persistentDataPath, $"Positions_Data_{timestamp}.txt");
         }
+        startTime = DateTime.Now; // Initialize start time
+
 
     }
 
@@ -343,16 +347,23 @@ public class OVRCameraRig : MonoBehaviour
             WriteHandPositionsToFile();
         }
 
-         void WriteHandPositionsToFile()
+        void WriteHandPositionsToFile()
         {
             using (StreamWriter writer = new StreamWriter(filePath, true))
             {
                 string leftHandPosition = leftHandAnchor.localPosition.ToString();
                 string rightHandPosition = rightHandAnchor.localPosition.ToString();
                 string headPosition = centerEyeAnchor.localPosition.ToString();
-                string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                string headRotation = centerEyeAnchor.localRotation.eulerAngles.ToString(); // Add head rotation
 
-                writer.WriteLine($"{timestamp}, Head: {headPosition}, Left Hand: {leftHandPosition}, Right Hand: {rightHandPosition}");
+                // Calculate DeltaT as the time difference from the start time
+                TimeSpan deltaT = DateTime.Now - startTime;
+
+                // Format DeltaT as a string in the format "hh:mm:ss.fff"
+                string deltaTString = string.Format("{0:D2}:{1:D2}:{2:D2}.{3:D3}",
+                    deltaT.Hours, deltaT.Minutes, deltaT.Seconds, deltaT.Milliseconds);
+
+                writer.WriteLine($"{deltaTString}, Head Position: {headPosition}, Head Rotation: {headRotation}, Left Hand: {leftHandPosition}, Right Hand: {rightHandPosition}");
             }
         }
 
