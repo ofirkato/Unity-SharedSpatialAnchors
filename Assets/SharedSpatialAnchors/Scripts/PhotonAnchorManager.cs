@@ -117,8 +117,7 @@ public class PhotonAnchorManager : PhotonPun.MonoBehaviourPunCallbacks
 
         SampleController.Instance.Log("GetLoggedInUserCallback: oculus user name: " + _oculusUsername + " oculus id: " + _oculusUserId);
 
-        if (_oculusUserId == 0)
-            SampleController.Instance.Log("You are not authenticated to use this app. Shared Spatial Anchors will not work.");
+
 
         PhotonPun.PhotonNetwork.LocalPlayer.NickName = _oculusUsername;
     }
@@ -294,8 +293,9 @@ public class PhotonAnchorManager : PhotonPun.MonoBehaviourPunCallbacks
             {
                 UnityEngine.Random.InitState((int)(Time.time * 10000));
                 string testName = "Clinician" + UnityEngine.Random.Range(0, 1000);
+                string roomName = "Treatment Session" + UnityEngine.Random.Range(0, 1000);
                 PhotonPun.PhotonNetwork.NickName = testName;
-                CreateNewRoomForLobby("Treatment Session");
+                CreateNewRoomForLobby(roomName);
             }
             if (controlPanel)
                 controlPanel.DisplayMenuPanel();

@@ -167,7 +167,7 @@ public class SharedAnchorControlPanel : MonoBehaviour
 
     {
         // Define the constant position and rotation
-        Vector3 constantPosition = new Vector3(0, 0, 0);
+        Vector3 constantPosition = new Vector3(0, 0, 4);
         Quaternion constantRotation = Quaternion.identity;  // Example rotation (no rotation)
 
         // Instantiate the networked cube at the constant position and rotation
