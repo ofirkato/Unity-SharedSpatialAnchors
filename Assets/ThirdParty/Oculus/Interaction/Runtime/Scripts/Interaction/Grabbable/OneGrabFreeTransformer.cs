@@ -32,6 +32,7 @@ namespace Oculus.Interaction
 
         private IGrabbable _grabbable;
         private Pose _grabDeltaInLocalSpace;
+        private Quaternion _initialRotation;  // To store the initial rotation
 
         public void Initialize(IGrabbable grabbable)
         {
@@ -45,6 +46,7 @@ namespace Oculus.Interaction
             _grabDeltaInLocalSpace = new Pose(targetTransform.InverseTransformVector(grabPoint.position - targetTransform.position),
                                             Quaternion.Inverse(grabPoint.rotation) * targetTransform.rotation);
 
+            _initialRotation = targetTransform.rotation;  // Store the initial rotation
 
         }
 
@@ -52,14 +54,20 @@ namespace Oculus.Interaction
         {
             Pose grabPoint = _grabbable.GrabPoints[0];
             var targetTransform = _grabbable.Transform;
+            //targetTransform.rotation = grabPoint.rotation * _grabDeltaInLocalSpace.rotation;
 
-            targetTransform.rotation = grabPoint.rotation * _grabDeltaInLocalSpace.rotation;
-            targetTransform.position = grabPoint.position - targetTransform.TransformVector(_grabDeltaInLocalSpace.position);
+            Vector3 newPosition = targetTransform.position;
+            newPosition.z = grabPoint.position.z - targetTransform.TransformVector(_grabDeltaInLocalSpace.position).z;
+            targetTransform.position = newPosition;
+
+            targetTransform.rotation = _initialRotation;// Maintain the initial rotation
 
         }
 
         public void EndTransform() {
-
+            var targetTransform = _grabbable.Transform;
+            // Ensure the rotation is reset to the initial rotation when the transformation ends
+            targetTransform.rotation = _initialRotation;
         }
     }
 }
