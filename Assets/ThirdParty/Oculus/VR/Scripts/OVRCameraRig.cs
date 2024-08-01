@@ -29,12 +29,14 @@ using UnityEngine;
 using UnityEngine.XR;
 using Node = UnityEngine.XR.XRNode;
 
+using System.IO;
+
+
 /// <summary>
 /// A head-tracked stereoscopic virtual reality camera rig.
 /// </summary>
 [ExecuteInEditMode]
-public class OVRCameraRig : MonoBehaviour
-{
+public class OVRCameraRig : MonoBehaviour {
     /// <summary>
     /// The left eye camera.
     /// </summary>
@@ -148,10 +150,22 @@ public class OVRCameraRig : MonoBehaviour
 
     #region Unity Messages
 
+    private string filePath;
+    private DateTime startTime;
+
+
     protected virtual void Awake()
     {
         _skipUpdate = true;
         EnsureGameObjectIntegrity();
+        if (filePath == null)
+        {
+            string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmssfff");
+            filePath = Path.Combine(Application.persistentDataPath, $"Positions_Data_{timestamp}.txt");
+        }
+        startTime = DateTime.Now; // Initialize start time
+
+
     }
 
     protected virtual void Start()
@@ -328,6 +342,28 @@ public class OVRCameraRig : MonoBehaviour
             rightControllerAnchor.localRotation = rightOffsetPose.orientation;
             leftControllerAnchor.localPosition = leftOffsetPose.position;
             leftControllerAnchor.localRotation = leftOffsetPose.orientation;
+
+            WriteHandPositionsToFile();
+        }
+
+        void WriteHandPositionsToFile()
+        {
+            using (StreamWriter writer = new StreamWriter(filePath, true))
+            {
+                string leftHandPosition = leftHandAnchor.localPosition.ToString();
+                string rightHandPosition = rightHandAnchor.localPosition.ToString();
+                string headPosition = centerEyeAnchor.localPosition.ToString();
+                string headRotation = centerEyeAnchor.localRotation.eulerAngles.ToString(); // Add head rotation
+
+                // Calculate DeltaT as the time difference from the start time
+                TimeSpan deltaT = DateTime.Now - startTime;
+
+                // Format DeltaT as a string in the format "hh:mm:ss.fff"
+                string deltaTString = string.Format("{0:D2}:{1:D2}:{2:D2}.{3:D3}",
+                    deltaT.Hours, deltaT.Minutes, deltaT.Seconds, deltaT.Milliseconds);
+
+                writer.WriteLine($"{deltaTString}, Head Position: {headPosition}, Head Rotation: {headRotation}, Left Hand: {leftHandPosition}, Right Hand: {rightHandPosition}");
+            }
         }
 
 #if USING_XR_SDK
