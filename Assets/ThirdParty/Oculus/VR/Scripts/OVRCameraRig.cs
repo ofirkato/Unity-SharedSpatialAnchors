@@ -36,8 +36,7 @@ using System.IO;
 /// A head-tracked stereoscopic virtual reality camera rig.
 /// </summary>
 [ExecuteInEditMode]
-public class OVRCameraRig : MonoBehaviour
-{
+public class OVRCameraRig : MonoBehaviour {
     /// <summary>
     /// The left eye camera.
     /// </summary>
